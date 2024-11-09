@@ -1,2 +1,2 @@
-# device-named
-Device Named Appliance 
+# device-bind
+Device Bind Appliance 
