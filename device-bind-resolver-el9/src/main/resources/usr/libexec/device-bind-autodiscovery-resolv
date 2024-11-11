@@ -1,0 +1,60 @@
+#!/bin/bash
+
+#
+# Bind DNS Server Autodiscovery - Resolver
+# ========================================
+#
+# This script autogenerates the bind config for a local DNSSEC resolver.
+
+set -e
+umask 0007
+
+
+#
+# Handle resolver
+# ---------------
+#
+# This works by replacing /etc/resolv.conf with a sylink of our own,
+# which signals network manager and friends to not touch.
+
+if test "$1" = "start"; then
+
+  if test ! -f "/etc/device/system/dns/resolver/disabled.bin"; then
+
+    if test -f "/etc/resolv.conf"; then
+      mv "/etc/resolv.conf" "/etc/resolv.conf.saved"
+      ln -s "/usr/libexec/device/system/dns/resolv.conf" "/etc/resolv.conf"
+    fi
+
+    logger -t bind-autodiscovery "enabled bind dns resolver."
+
+  else
+
+    if test -L "/etc/resolv.conf"; then
+      rm -f "/etc/resolv.conf"
+      if test -f "/etc/resolv.conf.saved"; then
+        mv "/etc/resolv.conf.saved" "/etc/resolv.conf"
+      fi
+    fi
+
+    logger -t bind-autodiscovery "disabled bind dns resolver."
+
+  fi
+
+elif test "$1" = "stop"; then
+
+  if test ! -f "/etc/device/system/dns/resolver/disabled.bin"; then
+
+    if test -L "/etc/resolv.conf"; then
+      rm -f "/etc/resolv.conf"
+      if test -f "/etc/resolv.conf.saved"; then
+        mv "/etc/resolv.conf.saved" "/etc/resolv.conf"
+      fi
+    fi
+
+    logger -t bind-autodiscovery "disabled bind dns resolver."
+
+  fi
+
+fi
+

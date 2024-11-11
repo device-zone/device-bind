@@ -1,0 +1,17 @@
+# systemd service for managing all bind autoconfiguration.
+
+[Unit]
+Description=Bind Server Configuration Autodiscovery
+Before=bind.service
+After=firewalld.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /usr/libexec/device-autodiscovery/bind start
+ExecReload=/bin/bash /usr/libexec/device-autodiscovery/bind reload
+ExecStop=/bin/bash /usr/libexec/device-autodiscovery/bind stop
+RemainAfterExit=on
+
+[Install]
+WantedBy=multi-user.target
+

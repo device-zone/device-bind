@@ -1,0 +1,22 @@
+#!/bin/sh
+  
+set -e
+umask 0002
+
+if [ "$1" == "--" ]; then
+
+  /usr/bin/sudo /usr/bin/systemctl --quiet disable named.service
+
+  if test -f "disabled.bin"; then
+    echo "dns resolver is already disabled."
+  else
+    touch "disabled.bin"
+    if systemctl is-active --quiet bind-autodiscovery.service; then
+      /usr/bin/sudo /usr/bin/systemctl restart bind-autodiscovery.service
+    else
+      echo "dns resolver will be disabled on next reboot."
+    fi
+  fi
+
+fi
+
