@@ -1,0 +1,16 @@
+# systemd service for managing all bind postconfiguration.
+
+[Unit]
+Description=Bind Configuration Postdiscovery
+After=named.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /usr/libexec/device-postdiscovery/bind start
+ExecReload=/bin/bash /usr/libexec/device-postdiscovery/bind reload
+RemainAfterExit=on
+
+[Install]
+WantedBy=multi-user.target
+
+

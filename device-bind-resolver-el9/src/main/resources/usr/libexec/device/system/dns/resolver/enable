@@ -14,6 +14,7 @@ if [ "$1" == "--" ]; then
     if systemctl is-active --quiet bind-autodiscovery.service; then
       /usr/bin/sudo /usr/bin/systemctl restart bind-autodiscovery.service
       /usr/bin/sudo /usr/bin/systemctl restart named.service
+      /usr/bin/sudo /usr/bin/systemctl restart bind-postdiscovery.service
     else
       echo "dns resolver will be enabled on next reboot."
     fi
