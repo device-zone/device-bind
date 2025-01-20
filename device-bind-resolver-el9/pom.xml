@@ -35,6 +35,14 @@
         </includes>
       </resource>
       <resource>
+        <targetPath>etc</targetPath>
+        <directory>src/main/resources/etc</directory>
+        <filtering>false</filtering>
+        <includes>
+          <include>**/*</include>
+        </includes>
+      </resource>
+      <resource>
         <targetPath>usr</targetPath>
         <directory>src/main/resources/usr</directory>
         <filtering>true</filtering>
@@ -97,6 +105,10 @@
                   <location>target/classes/usr/libexec/device-bind-autodiscovery-ssh</location>
                   <destination>60-ssh</destination>
                 </source>
+                <source>
+                  <location>target/classes/usr/libexec/device-bind-autodiscovery-sysconfig</location>
+                  <destination>70-sysconfig</destination>
+                </source>
               </sources>
             </mapping>
             <mapping>
@@ -105,6 +117,18 @@
               <filemode>2775</filemode>
               <username>root</username>
               <groupname>device</groupname>
+            </mapping>
+            <mapping>
+              <directory>/etc/named</directory>
+              <directoryIncluded>false</directoryIncluded>
+              <filemode>644</filemode>
+              <username>root</username>
+              <groupname>root</groupname>
+              <sources>
+                <source>
+                  <location>target/classes/etc/named/named-device.conf</location>
+                </source>
+              </sources>
             </mapping>
             <mapping>
               <directory>/usr/libexec/device/system/dns</directory>
@@ -150,7 +174,7 @@
                 </source>
               </sources>
             </mapping>
-          </mappings>
+          </mappings>etc/named/named-device.conf
           <postinstallScriptlet>
             <scriptFile>target/classes/postinstall</scriptFile>
             <fileEncoding>utf-8</fileEncoding>
