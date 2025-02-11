@@ -1,5 +1,7 @@
 if [ $1 = 0 ]; then
   /usr/bin/systemctl stop bind-autodiscovery.service
+  /usr/bin/systemctl stop bind-postdiscovery.service
   /usr/bin/systemctl disable bind-autodiscovery.service
+  /usr/bin/systemctl disable bind-postdiscovery.service
 fi
 
